@@ -77,7 +77,7 @@ func handleRemoteConfig(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		return
 	}
-	params["recvdFrom"] = r.RemoteAddr // add IP:port of sender
+	params["recvdFrom"] = r.RemoteAddr // add IP:port of sender to config
 	if err = fileutils.WriteConfigFile(cfgFile, params); err != nil {
 		log.Println("*** Could not write to config file:", err, "***")
 		return
