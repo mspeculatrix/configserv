@@ -1,0 +1,18 @@
+#!/bin/bash
+TARGET_USER=pi
+TARGET_HOST=ada.local
+TARGET_DIR=code
+ARM_VERSION=7
+
+# Executable name is assumed to be same as current directory name
+EXECUTABLE=${PWD##*/}
+echo "Executable: $EXECUTABLE"
+
+echo "Building for Raspberry Pi..."
+env GOOS=linux GOARCH=arm GOARM=$ARM_VERSION go build
+
+echo "Uploading to Raspberry Pi:"
+echo "    host: $TARGET_HOST"
+echo "    user: $TARGET_USER"
+echo "    dir : $TARGET_DIR"
+scp -i ~/.ssh/ssh-key $EXECUTABLE $TARGET_USER@$TARGET_HOST:$TARGET_DIR/$EXECUTABLE
