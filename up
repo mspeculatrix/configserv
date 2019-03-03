@@ -1,8 +1,11 @@
 #!/bin/bash
-TARGET_USER=pi
-TARGET_HOST=ada.local
-TARGET_DIR=code
-ARM_VERSION=7
+# Cross-compile executable for ARM platform then push this to a
+# Raspberry Pi.
+# Assumes you've set up suitable SSH keys on local machine and remote Pi.
+TARGET_USER=Pi			# username on target pi
+TARGET_HOST=ada.local	# hostname or IP of target Pi
+TARGET_DIR=code			# sub-dir below user's home dir
+ARM_VERSION=7			# suitable for Pi 2 or 3. Use 6 for other models of Pi
 
 # Executable name is assumed to be same as current directory name
 EXECUTABLE=${PWD##*/}
