@@ -1,5 +1,7 @@
 # configserv
 
+_This is a work in progress, at an early stage of development and, most likely, will never be finished._
+
 `go get github.com/mspeculatrix/configserv`
 
 Intended to run on a Raspberry Pi on board a robot. It's used to tell the RPi the location/configuration of a remote server used to, for example, log telemetry or other data. The idea is that, after starting up the robot, the user will employ a web app running on the remote server (see [robot_server](https://github.com/mspeculatrix/robot_server)) to send key info telling the RPi where to connect, and then the RPi will configure its settings accordingly.
