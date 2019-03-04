@@ -9,3 +9,5 @@ Might be expandable to handle other configurations and even act as some kind of 
 It receives a GET request via HTTP and converts the query string to a map before saving the map as key/value pairs in a config file, using the format k=v.
 
 The `up` Bash script is there to compile the binary and then push it to a Raspberry Pi on the local network. Configure as appropriate for your setup.
+
+To understand what the hell is going on here, [read my blog](https://mansfield-devine.com/speculatrix/ "Machina Speculatrix").
