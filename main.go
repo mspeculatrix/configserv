@@ -46,8 +46,8 @@ var logFile = "configserv.log" // for logging, duh
 // intended for use by monitoring programs.
 const pidFile = "configserv.pid" // to store PID for this program
 
-// runfail is used to both log fatal errors and output to screen
-func runfail(msg string, err error) {
+// fatalErr is used to both log fatal errors and output to screen
+func fatalErr(msg string, err error) {
 	fmt.Println(msg, err)
 	log.Fatalln(msg, err)
 }
@@ -78,7 +78,7 @@ func handleRemoteConfig(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	params["recvdFrom"] = r.RemoteAddr // add IP:port of sender to config
-	if err = fileutils.WriteConfigFile(cfgFile, params); err != nil {
+	if _, err = fileutils.WriteConfigFile(cfgFile, params); err != nil {
 		log.Println("*** Could not write to config file:", err, "***")
 		return
 	}
@@ -107,19 +107,19 @@ func main() {
 	// Check that config file is writeable. If not, exit.
 	fh, err := os.Create(cfgFile)
 	if err != nil {
-		runfail("Could not create configuration file", err)
+		fatalErr("Could not create configuration file", err)
 	}
 	fh.Close()
 
 	// ===== SET UP LOGGING ===================================================
 	fhlog, err := os.OpenFile(logFile, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0644)
 	if err != nil {
-		runfail("Failed to open log file "+logFile+":", err)
+		fatalErr("Failed to open log file "+logFile+":", err)
 	}
-	log.SetOutput(io.Writer(fhlog))
+	log.SetOutput(io.Writer(fhlog)) // use our log file for logging
 	log.Println("Running configserv")
-	log.Printf("- on port   : %v\n", portNum)
-	log.Printf("- robot name: %v\n", robotName)
+	log.Printf("- on port   : %s\n", portNum)
+	log.Printf("- robot name: %s\n", robotName)
 
 	// ===== PID =============================================================
 	oldPid, err := fileutils.ReadPIDFile(pidFile)
@@ -133,7 +133,7 @@ func main() {
 		// maybe the temp dir wasn't writable. Try again using just
 		// a local file
 		if _, err = fileutils.WritePIDToFile(pidFile); err != nil {
-			runfail("*** Could not write to PID file ***", err)
+			fatalErr("*** Could not write to PID file ***", err)
 		}
 		log.Println("- created local PID file:", pidFile)
 	} else {
@@ -142,7 +142,11 @@ func main() {
 
 	// ===== HTTP SERVER ======================================================
 	// Route handlers
+
+	// REMOTE CONFIG
 	http.HandleFunc("/remcfg", handleRemoteConfig)
+
+	// DEFAULT
 	// Following line must be the last of the handlers as it
 	// catches anything not dealt with above.
 	http.HandleFunc("/", handleDefault)
