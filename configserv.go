@@ -1,5 +1,5 @@
 /*
-Package main.go
+Package main
 Application: configserv
 Runs on the Raspberry Pi on board a robot. It's used to tell the RPi
 the location/configuration of the remote server used to, for example,
