@@ -39,7 +39,7 @@ import (
 var verbose = false            // modify with -v
 var robotName = "robot"        // used in returned headers
 var portNum = "3000"           // port num for this server
-var cfgFile = "remoteSvr.cfg"  // stores received config data
+var cfgFile = "remoteSvr.cfg"  // file to store received config data
 var logFile = "configserv.log" // for logging, duh
 
 // We'll store the PID of this process/program in a file. This is
