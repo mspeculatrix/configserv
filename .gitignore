@@ -13,3 +13,4 @@ configserv
 *.out
 
 .gitattributes
+target.cfg
